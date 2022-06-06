@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 
-declare function customInitFuncionts(): void;
+declare function customInitFuncionts(): any;
 
 @Component({
   selector: 'app-pages',
@@ -9,12 +9,12 @@ declare function customInitFuncionts(): void;
   styles: [
   ]
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements AfterViewChecked {
 
 
   constructor(private settingService: SettingsService) { }
 
-  ngOnInit(): void {
+  ngAfterViewChecked(): void {
     customInitFuncionts();
   }
 
