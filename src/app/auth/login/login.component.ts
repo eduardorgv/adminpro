@@ -46,7 +46,9 @@ export class LoginComponent implements AfterViewInit {
     this.usuarioService.loginGoogle(response.credential)
       .subscribe(resp => {
         if(resp.ok) {
-          this.router.navigateByUrl('/');
+          this.ngZone.run(() => {
+            this.router.navigateByUrl('/');
+          });
         }
       });
   }
@@ -64,7 +66,9 @@ export class LoginComponent implements AfterViewInit {
         }
         
         if(resp.ok){
-          this.router.navigateByUrl('/');
+          this.ngZone.run(() => {
+            this.router.navigateByUrl('/');
+          });
         }
       })
   }

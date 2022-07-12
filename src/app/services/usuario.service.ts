@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
+import { Usuario } from '../models/usuario.model';
 
 const base_url = environment.base_url;
 declare const google: any;
@@ -16,12 +17,23 @@ declare const google: any;
 })
 export class UsuarioService {
 
+  usuario!: Usuario;
+
   constructor(private http: HttpClient, 
               private router: Router, 
               private ngZone: NgZone) { }
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
   logout() {
     localStorage.removeItem('token');
+    google.accounts.id.disableAutoSelect();
     google.accounts.id.revoke('yluminexymeh@gmail.com', () => {
       // window.open('login','_self');
       this.ngZone.run(() => {
@@ -31,14 +43,14 @@ export class UsuarioService {
   }
 
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || '';
-
-    return this.http.get(`${base_url}/login/renew`, {headers: {'x-token': token}})
+    return this.http.get(`${base_url}/login/renew`, {headers: {'x-token': this.token}})
       .pipe(
-        tap((resp: any) => {
+        map((resp: any) => {
+          const { nombre, google, email, role, img = '', uid } = resp.usuario;
+          this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
           localStorage.setItem('token', resp.token);
+          return true;
         }),
-        map(resp => true),
         catchError((error: HttpErrorResponse) => of(false))
       );
   }
@@ -55,6 +67,22 @@ export class UsuarioService {
           });
         })
       );
+  }
+
+  actualizarUsuario(data: {nombre: string, email: string, role: string | undefined}) {
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, { headers: { 'x-token': this.token } })
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => {
+          Swal.fire('Error', error.error.msg, 'error');
+        });
+      })
+    );
   }
 
   loginUsuario(formData: RegisterForm) {
