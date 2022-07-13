@@ -12,6 +12,9 @@ import { PromesasComponent } from "./promesas/promesas.component";
 import { RxjsComponent } from "./rxjs/rxjs.component";
 import { PerfilComponent } from './perfil/perfil.component';
 
+// * Mantenimientos
+import { UsuariosComponent } from "./mantenimientos/usuarios/usuarios.component";
+
 const routes: Routes = [
     { 
         path: 'dashboard', 
@@ -24,7 +27,10 @@ const routes: Routes = [
           { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1' } },
           { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes' } },
           { path: 'promises', component: PromesasComponent, data: { titulo: 'Promesas' } },
-          { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } }
+          { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
+
+            //   * Mantenimientos
+          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuario de aplicación' } },
         ]
       },
 ];

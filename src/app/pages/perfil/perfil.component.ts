@@ -4,8 +4,6 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { FileUploadService } from '../../services/file-upload.service';
 import Swal from 'sweetalert2';
-import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -33,7 +31,7 @@ export class PerfilComponent implements OnInit {
 
   actualizarPerfil() {
     console.log(this.perfilForm.value);
-    this.usuarioService.actualizarUsuario(this.perfilForm.value)
+    this.usuarioService.actualizarPerfil(this.perfilForm.value)
       .subscribe((resp: any) => {
         if(resp.ok) {
           const { nombre, email } = this.perfilForm.value;
