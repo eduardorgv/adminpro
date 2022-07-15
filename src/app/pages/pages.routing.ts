@@ -17,6 +17,8 @@ import { UsuariosComponent } from "./mantenimientos/usuarios/usuarios.component"
 import { HospitalesComponent } from "./mantenimientos/hospitales/hospitales.component";
 import { MedicosComponent } from "./mantenimientos/medicos/medicos.component";
 import { MedicoComponent } from "./mantenimientos/medicos/medico.component";
+import { BusquedasComponent } from './busquedas/busquedas.component';
+import { AdminGuard } from "../guards/admin.guard";
 
 const routes: Routes = [
     { 
@@ -29,15 +31,18 @@ const routes: Routes = [
           { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar' } },
           { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1' } },
           { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes' } },
+          { path: 'buscar/:term', component: BusquedasComponent, data: { titulo: 'Busqueda' } },
           { path: 'promises', component: PromesasComponent, data: { titulo: 'Promesas' } },
           { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
 
             //   * Mantenimientos
-          { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de aplicación' } },
-          { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Hospitales de la aplicación' } },
-          { path: 'medicos', component: MedicosComponent, data: { titulo: 'Médicos de la aplicación' } },
-          { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Médico de la aplicación' } },
-        ]
+            { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Hospitales de la aplicación' } },
+            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Médicos de la aplicación' } },
+            { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Médico de la aplicación' } },
+            
+            // * Rutas de admin
+            { path: 'usuarios', canActivate: [ AdminGuard ],  component: UsuariosComponent, data: { titulo: 'Usuarios de aplicación' } },
+          ]
       },
 ];
 

@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 
+declare function customInitFunctions(): any;
 declare const google: any;
 
 @Component({
@@ -10,7 +11,7 @@ declare const google: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   @ViewChild('googleBtn') googleBtn!: ElementRef;
 
@@ -25,6 +26,10 @@ export class LoginComponent implements AfterViewInit {
   constructor(private router: Router, 
               private usuarioService: UsuarioService, 
               private ngZone: NgZone) { }
+
+  ngOnInit(): void {
+    customInitFunctions();
+  }
 
   ngAfterViewInit(): void {
     this.googleInit();

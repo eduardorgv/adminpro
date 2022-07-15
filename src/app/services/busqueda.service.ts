@@ -42,6 +42,10 @@ export class BusquedaService {
     );
   }
 
+  busquedaGlobal(term: string) {
+    return this.http.get(`${base_url}/todo/${term}`, this.headers);
+  }
+
   buscar(type: 'usuarios'|'medicos'|'hospitales', term: string) {
     return this.http.get<any[]>(`${base_url}/todo/coleccion/${type}/${term}`, this.headers)
       .pipe(

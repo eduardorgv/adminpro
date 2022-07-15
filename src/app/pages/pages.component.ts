@@ -1,7 +1,8 @@
-import { AfterViewChecked, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
+import { SidebarService } from '../services/sidebar.service';
 
-declare function customInitFuncionts(): any;
+declare function customInitFunctions(): any;
 
 @Component({
   selector: 'app-pages',
@@ -9,13 +10,15 @@ declare function customInitFuncionts(): any;
   styles: [
   ]
 })
-export class PagesComponent implements AfterViewChecked {
+export class PagesComponent implements OnInit {
 
 
-  constructor(private settingService: SettingsService) { }
+  constructor(private settingService: SettingsService,
+              private sidebarService: SidebarService) { }
 
-  ngAfterViewChecked(): void {
-    customInitFuncionts();
+  ngOnInit(): void {
+    customInitFunctions();
+    this.sidebarService.cargarMenu();
   }
 
 }
